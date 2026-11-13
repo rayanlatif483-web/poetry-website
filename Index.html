@@ -1,1 +1,404 @@
-# poetry-website
+<!DOCTYPE html>
+<html lang="ku" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>چایخانەی شاعیران</title>
+<style>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  body {
+    background-color: #160f09;
+    color: #fdf6e3;
+    font-family: Tahoma, Arial, sans-serif;
+    line-height: 1.8;
+    direction: rtl;
+  }
+  header {
+    background: linear-gradient(180deg, #2e1d12 0%, #160f09 100%);
+    text-align: center;
+    padding: 50px 20px 30px;
+    border-bottom: 3px solid #d4a373;
+  }
+  .teacup-wrap {
+    width: 110px;
+    height: 110px;
+    margin: 0 auto 15px;
+    animation: floatTea 4s ease-in-out infinite;
+  }
+  @keyframes floatTea {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-8px) rotate(2deg); }
+  }
+  .steam {
+    animation: steamRise 3s ease-in-out infinite;
+    transform-origin: center;
+  }
+  @keyframes steamRise {
+    0% { opacity: 0.2; transform: translateY(4px); }
+    50% { opacity: 0.9; transform: translateY(-4px); }
+    100% { opacity: 0.2; transform: translateY(4px); }
+  }
+  header h1 {
+    font-size: 2.6rem;
+    color: #e6b87d;
+    margin-bottom: 10px;
+    text-shadow: 0 3px 10px rgba(0,0,0,0.8);
+  }
+  header p {
+    font-size: 1.15rem;
+    color: #e2d1b3;
+    max-width: 650px;
+    margin: 0 auto;
+  }
+  .container {
+    max-width: 1150px;
+    margin: 35px auto;
+    padding: 0 18px;
+  }
+  .poet-card {
+    background: #241810;
+    border: 2px solid #5c3d28;
+    border-radius: 18px;
+    margin-bottom: 35px;
+    overflow: hidden;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.6);
+    display: flex;
+    flex-wrap: wrap;
+    transition: transform 0.4s ease, border-color 0.4s ease;
+  }
+  .poet-card:hover {
+    border-color: #d4a373;
+    transform: translateY(-5px);
+  }
+  .poet-visual {
+    flex: 1 1 280px;
+    background: radial-gradient(circle at center, #3e281a 0%, #1d130c 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 25px;
+    border-left: 1px solid #3f2a1d;
+    position: relative;
+    overflow: hidden;
+  }
+  .portrait-frame {
+    width: 190px;
+    height: 190px;
+    border-radius: 50%;
+    border: 4px solid #d4a373;
+    background: #2c1d13;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.7);
+    animation: cinemaMotion 7s ease-in-out infinite alternate;
+  }
+  @keyframes cinemaMotion {
+    0% { transform: scale(1) rotate(-1.5deg); }
+    100% { transform: scale(1.08) rotate(1.5deg); }
+  }
+  .badge {
+    margin-top: 15px;
+    background: #d4a373;
+    color: #160f09;
+    font-weight: bold;
+    padding: 4px 16px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+  }
+  .poet-content {
+    flex: 2 1 480px;
+    padding: 28px;
+  }
+  .poet-content h2 {
+    color: #e6b87d;
+    font-size: 1.85rem;
+    margin-bottom: 6px;
+  }
+  .years {
+    color: #bfa582;
+    font-size: 0.95rem;
+    margin-bottom: 14px;
+    display: block;
+  }
+  .bio {
+    color: #f3e9d2;
+    font-size: 1.05rem;
+    margin-bottom: 16px;
+  }
+  .works {
+    background: rgba(0, 0, 0, 0.35);
+    border-right: 4px solid #d4a373;
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-bottom: 18px;
+    font-size: 0.98rem;
+  }
+  .works strong {
+    color: #e6b87d;
+  }
+  .poem {
+    background: rgba(212, 163, 115, 0.1);
+    border: 1px dashed #8c6239;
+    padding: 18px;
+    border-radius: 12px;
+    color: #fff8e7;
+    font-size: 1.1rem;
+    text-align: center;
+  }
+  .poem-title {
+    color: #d4a373;
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+    display: block;
+  }
+  footer {
+    text-align: center;
+    padding: 30px;
+    background: #100a06;
+    color: #bfa582;
+    border-top: 1px solid #3f2a1d;
+    margin-top: 40px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="teacup-wrap">
+    <svg viewBox="0 0 120 120" width="110" height="110">
+      <path class="steam" d="M45 35 Q40 22 48 12" stroke="#faedcd" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <path class="steam" d="M60 32 Q66 18 58 8" stroke="#d4a373" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <path class="steam" d="M75 35 Q70 22 78 12" stroke="#faedcd" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <path d="M32 45 L88 45 L80 88 Q78 96 60 96 Q42 96 40 88 Z" fill="#8b261d" stroke="#d4a373" stroke-width="3"/>
+      <path d="M36 52 L84 52 L81 65 L39 65 Z" fill="#c94a28"/>
+      <path d="M86 54 Q104 54 104 68 Q104 82 83 82" stroke="#d4a373" stroke-width="4" fill="none"/>
+      <ellipse cx="60" cy="99" rx="42" ry="7" fill="#d4a373"/>
+    </svg>
+  </div>
+  <h1>چایخانەی شاعیران</h1>
+  <p>گەشتێکی ئەدەبی و سینەمایی بەناو ژیان، بەرهەم و شیعری گەورە شاعیرانی کورددا</p>
+</header>
+
+<div class="container">
+
+  <!-- ١. نالی -->
+  <div class="poet-card">
+    <div class="poet-visual">
+      <div class="portrait-frame">
+        <svg viewBox="0 0 200 200" width="190" height="190">
+          <rect width="200" height="200" fill="#2b1e16"/>
+          <circle cx="100" cy="100" r="85" fill="#4a3222"/>
+          <path d="M40 195 Q100 140 160 195 Z" fill="#1e2d3b"/>
+          <path d="M75 150 L100 185 L125 150 Z" fill="#d4a373"/>
+          <circle cx="100" cy="102" r="36" fill="#e8be96"/>
+          <path d="M64 105 Q68 148 100 152 Q132 148 136 105 Q125 128 100 128 Q75 128 64 105 Z" fill="#e6e6e6"/>
+          <path d="M84 114 Q100 108 116 114" stroke="#cccccc" stroke-width="4" fill="none"/>
+          <circle cx="87" cy="96" r="3.5" fill="#1a120b"/>
+          <circle cx="113" cy="96" r="3.5" fill="#1a120b"/>
+          <path d="M80 88 Q87 84 94 88" stroke="#555" stroke-width="2.5" fill="none"/>
+          <path d="M106 88 Q113 84 120 88" stroke="#555" stroke-width="2.5" fill="none"/>
+          <ellipse cx="100" cy="64" rx="44" ry="22" fill="#f5f5f5" stroke="#ccc" stroke-width="2"/>
+          <path d="M60 66 Q100 82 140 66" stroke="#d4a373" stroke-width="4" fill="none"/>
+        </svg>
+      </div>
+      <span class="badge">قوتابخانەی بابان</span>
+    </div>
+    <div class="poet-content">
+      <h2>نالی (مەلا خدری ئەحمەدی شاوەیس)</h2>
+      <span class="years">١٨٠٠ - ١٨٥٦ زایینی | خاک و خۆڵی شارەزوور</span>
+      <p class="bio">پێشەوای قوتابخانەی شیعری بابان و یەکێک لە کۆڵەکە هەرە بەهێزەکانی شیعری کلاسیکی کوردی. نالی زمانی کوردیی سۆرانیی کردە زمانێکی بەرزی ئەدەبی و فەلسەفی کە توانای دەربڕینی قووڵترین هەستەکانی هەبێت.</p>
+      <div class="works"><strong>بەرهەمەکان:</strong> دیوانی نالی (کۆکراوەی قەسیدە و غەزەلەکان بە کوردی، فارسی و عەرەبی).</div>
+      <div class="poem">
+        <span class="poem-title">لە قەسیدەی بەناوبانگی بۆ سالم:</span>
+        قوربانی تۆزی ڕێگەتم ئەی بادی خۆش مروور<br>
+        ئەی پەیکی شارەزا بە هەموو شاری شارەزوور<br>
+        ئەی لوتفەکەت خەفیی و هەوا خواهی هەم دەمە<br>
+        وەی سەروەکەت جەلیی و هەوا خۆشی هەم حوزوور
+      </div>
+    </div>
+  </div>
+
+  <!-- ٢. مەحوی -->
+  <div class="poet-card">
+    <div class="poet-visual">
+      <div class="portrait-frame">
+        <svg viewBox="0 0 200 200" width="190" height="190">
+          <rect width="200" height="200" fill="#231912"/>
+          <circle cx="100" cy="100" r="85" fill="#3d291c"/>
+          <path d="M35 195 Q100 135 165 195 Z" fill="#2d241e"/>
+          <circle cx="100" cy="104" r="35" fill="#e5b88f"/>
+          <path d="M65 106 Q72 155 100 160 Q128 155 135 106 Q120 132 100 132 Q80 132 65 106 Z" fill="#ffffff"/>
+          <circle cx="88" cy="96" r="3" fill="#1a120b"/>
+          <circle cx="112" cy="96" r="3" fill="#1a120b"/>
+          <path d="M82 90 Q88 87 94 90" stroke="#777" stroke-width="2" fill="none"/>
+          <path d="M106 90 Q112 87 118 90" stroke="#777" stroke-width="2" fill="none"/>
+          <ellipse cx="100" cy="64" rx="46" ry="24" fill="#fafafa"/>
+          <path d="M62 60 Q100 76 138 60" stroke="#bbb" stroke-width="3" fill="none"/>
+        </svg>
+      </div>
+      <span class="badge">عیرفان و سۆفیگەری</span>
+    </div>
+    <div class="poet-content">
+      <h2>مەحوی (مەلا محەمەدی کوڕی مەلا عوسمان)</h2>
+      <span class="years">١٨٣٠ - ١٩٠٦ زایینی | سلێمانی</span>
+      <p class="bio">شاعیری گەورەی عیرفان و تەسەوف. مەحوی لە خانەقاکەی خۆیدا لە سلێمانی وانەی زانست و ئەدەبی دەوتەوە و شیعرەکانی پڕن لە تێڕامانی قووڵ دەربارەی مرۆڤ، ژیان، عەشق و خوداناسی.</p>
+      <div class="works"><strong>بەرهەمەکان:</strong> دیوانی مەحوی، غەزەلە عیرفانییەکان و چوارینەکان.</div>
+      <div class="poem">
+        <span class="poem-title">لە غەزەلەکانی مەحوی:</span>
+        لەبەر ناڵەی حەزینم هەر وەکوو نەی<br>
+        لە هەر جێیەک ئەچم، ئەڵێن: ئەوە کەی؟<br>
+        بە مەی سەرخۆش نەبم ئەی ساقی، توخوا<br>
+        بە جامێ ئاوی چاوم تێکەڵی مەی
+      </div>
+    </div>
+  </div>
+
+  <!-- ٣. هێمن موکریانی -->
+  <div class="poet-card">
+    <div class="poet-visual">
+      <div class="portrait-frame">
+        <svg viewBox="0 0 200 200" width="190" height="190">
+          <rect width="200" height="200" fill="#261c14"/>
+          <circle cx="100" cy="100" r="85" fill="#463122"/>
+          <path d="M40 195 L65 145 L135 145 L160 195 Z" fill="#4a3c31"/>
+          <path d="M85 145 L100 175 L115 145 Z" fill="#f4ecd8"/>
+          <circle cx="100" cy="104" r="35" fill="#e6ba91"/>
+          <path d="M82 117 Q100 112 118 117" stroke="#5c4033" stroke-width="5" fill="none" stroke-linecap="round"/>
+          <circle cx="87" cy="96" r="3.5" fill="#1a120b"/>
+          <circle cx="113" cy="96" r="3.5" fill="#1a120b"/>
+          <path d="M64 78 Q100 50 136 78 Q125 62 100 62 Q75 62 64 78 Z" fill="#2b211a"/>
+          <path d="M62 74 Q100 66 138 74" stroke="#d4a373" stroke-width="5" fill="none" stroke-dasharray="6,4"/>
+        </svg>
+      </div>
+      <span class="badge">شاعیری نیشتمان و جوانی</span>
+    </div>
+    <div class="poet-content">
+      <h2>هێمن موکریانی (سەید محەمەد ئەمین)</h2>
+      <span class="years">١٩٢١ - ١٩٨٦ زایینی | مەهاباد</span>
+      <p class="bio">شاعیری گەورەی نیشتمانپەروەر و ناسکخەیاڵی کورد. هێمن بە زمانێکی سادە، شیرین و پڕ لە سۆز، ئازارەکانی گەلی کورد، جوانیی سروشت و خۆشەویستیی مرۆڤی هۆنیوەتەوە.</p>
+      <div class="works"><strong>بەرهەمەکان:</strong> تاریک و ڕوون، ناڵەی جودایی، پاشەرۆک، توحفەی موزەفەرییە.</div>
+      <div class="poem">
+        <span class="poem-title">لە شیعری «ناڵەی جودایی»:</span>
+        گەرچی تووشی ڕەنجەڕۆیی و حەسرەت و دەردم ئەمن<br>
+        قەت لەدەس ئەم چەرخە سپڵە نابەزم، مەردم ئەمن<br>
+        من لە زنجیر و تەناف و دار و بەند باکم نییە<br>
+        لەت لەتم کەن، بمکوژن، هێشتا دەڵێم کوردم ئەمن
+      </div>
+    </div>
+  </div>
+
+  <!-- ٤. عەبدوڵڵا گۆران -->
+  <div class="poet-card">
+    <div class="poet-visual">
+      <div class="portrait-frame">
+        <svg viewBox="0 0 200 200" width="190" height="190">
+          <rect width="200" height="200" fill="#241911"/>
+          <circle cx="100" cy="100" r="85" fill="#422d1f"/>
+          <path d="M42 195 L65 148 L135 148 L158 195 Z" fill="#263238"/>
+          <polygon points="100,152 94,185 100,192 106,185" fill="#8b261d"/>
+          <circle cx="100" cy="104" r="35" fill="#ecc29c"/>
+          <rect x="75" y="88" width="20" height="14" rx="3" fill="none" stroke="#1a120b" stroke-width="2.5"/>
+          <rect x="105" y="88" width="20" height="14" rx="3" fill="none" stroke="#1a120b" stroke-width="2.5"/>
+          <line x1="95" y1="94" x2="105" y2="94" stroke="#1a120b" stroke-width="2.5"/>
+          <circle cx="85" cy="95" r="2.5" fill="#1a120b"/>
+          <circle cx="115" cy="95" r="2.5" fill="#1a120b"/>
+          <path d="M66 84 Q68 54 100 54 Q132 54 134 84 Q120 68 100 68 Q80 68 66 84 Z" fill="#3a2e28"/>
+        </svg>
+      </div>
+      <span class="badge">ڕابەری شیعری نوێ</span>
+    </div>
+    <div class="poet-content">
+      <h2>عەبدوڵڵا گۆران</h2>
+      <span class="years">١٩٠٤ - ١٩٦٢ زایینی | هەڵەبجە</span>
+      <p class="bio">دامەزرێنەر و ڕابەری شیعری نوێی کوردی. گۆران کێشی عەرووزیی عەرەبیی گۆڕی بۆ کێشی خۆماڵیی کوردی و مۆسیقایەکی سروشتی و جوانییەکی بێوێنەی بەخشی بە شیعری کوردی.</p>
+      <div class="works"><strong>بەرهەمەکان:</strong> بەهەشت و یادگار، فرمێسک و هونەر، سروشت و دەروون، لاوک و پەیام.</div>
+      <div class="poem">
+        <span class="poem-title">لە شیعری «بەهەشت و یادگار»:</span>
+        بە ئاسمانەوە ئەستێرەم دیوە<br>
+        لە باخچەی بەهار گوڵم چنیوە<br>
+        شەونمی درەخت لە ڕووم پژاوە<br>
+        زەردەی خۆرنشین لە ئاسۆم داوە
+      </div>
+    </div>
+  </div>
+
+  <!-- ٥. شێرکۆ بێکەس -->
+  <div class="poet-card">
+    <div class="poet-visual">
+      <div class="portrait-frame">
+        <svg viewBox="0 0 200 200" width="190" height="190">
+          <rect width="200" height="200" fill="#211710"/>
+          <circle cx="100" cy="100" r="85" fill="#3d291c"/>
+          <path d="M40 195 L65 148 L135 148 L160 195 Z" fill="#1f1f1f"/>
+          <circle cx="100" cy="106" r="35" fill="#e6b88e"/>
+          <path d="M84 118 Q100 113 116 118" stroke="#dcdcdc" stroke-width="5" fill="none" stroke-linecap="round"/>
+          <circle cx="87" cy="98" r="3.5" fill="#1a120b"/>
+          <circle cx="113" cy="98" r="3.5" fill="#1a120b"/>
+          <path d="M62 86 Q60 52 100 50 Q140 52 138 86 Q125 66 100 66 Q75 66 62 86 Z" fill="#e8e8e8"/>
+        </svg>
+      </div>
+      <span class="badge">ئیمپراتۆری شیعر</span>
+    </div>
+    <div class="poet-content">
+      <h2>شێرکۆ بێکەس</h2>
+      <span class="years">١٩٤٠ - ٢٠١٣ زایینی | سلێمانی</span>
+      <p class="bio">یەکێک لە دیارترین و داهێنەرترین شاعیرانی هاوچەرخی کورد کە شیعرەکانی بۆ دەیان زمانی جیهانی وەرگێڕدراون. خاوەنی داهێنانی «پۆستەرە شیعر» و داستانە شیعرییە درێژەکانە.</p>
+      <div class="works"><strong>بەرهەمەکان:</strong> تریفەی هەڵبەست، دەربەندی پەپوولە، خاچ و مار و ڕۆژژمێری شاعیرێک، ئێستا کچێک نیشتمانمە.</div>
+      <div class="poem">
+        <span class="poem-title">لە کۆمەڵە شیعری «دەربەندی پەپوولە»:</span>
+        ئەگەر منیان کوشت، دڵم دەربێنن<br>
+        بیکەن بە چرای سەر گۆڕی شەهید<br>
+        ئەگەر چاویشیان دەرهێنام، بیبەن<br>
+        بیکەن بە ئەستێرەی شەوانی ئومێد
+      </div>
+    </div>
+  </div>
+
+  <!-- ٦. مەستوورەی ئەردەڵان -->
+  <div class="poet-card">
+    <div class="poet-visual">
+      <div class="portrait-frame">
+        <svg viewBox="0 0 200 200" width="190" height="190">
+          <rect width="200" height="200" fill="#261912"/>
+          <circle cx="100" cy="100" r="85" fill="#462d20"/>
+          <path d="M40 195 Q100 135 160 195 Z" fill="#6b1d2f"/>
+          <path d="M58 95 Q58 48 100 48 Q142 48 142 95 L148 165 L52 165 Z" fill="#8e2438"/>
+          <circle cx="100" cy="104" r="32" fill="#f2cba5"/>
+          <circle cx="88" cy="98" r="3" fill="#1a120b"/>
+          <circle cx="112" cy="98" r="3" fill="#1a120b"/>
+          <path d="M82 91 Q88 88 94 91" stroke="#2c1d13" stroke-width="2" fill="none"/>
+          <path d="M106 91 Q112 88 118 91" stroke="#2c1d13" stroke-width="2" fill="none"/>
+          <path d="M93 116 Q100 121 107 116" stroke="#a63a49" stroke-width="2.5" fill="none"/>
+          <path d="M68 72 Q100 84 132 72" stroke="#ffd166" stroke-width="4" fill="none"/>
+          <circle cx="100" cy="78" r="4" fill="#ffd166"/>
+        </svg>
+      </div>
+      <span class="badge">شاعیر و مێژوونووس</span>
+    </div>
+    <div class="poet-content">
+      <h2>مەستوورەی ئەردەڵان (ماهشەرەف خانم)</h2>
+      <span class="years">١٨٠٥ - ١٨٤٨ زایینی | سنە</span>
+      <p class="bio">شاعیر، مێژوونووس و نووسەری ناوداری کورد لە میرنشینی ئەردەڵان. مەستوورە یەکەم ژنە مێژوونووسی ڕۆژهەڵاتی ناوەڕاستە و خاوەنی دیوانێکی دەوڵەمەندی شیعرییە.</p>
+      <div class="works"><strong>بەرهەمەکان:</strong> دیوانی مەستوورە (بە کوردی و فارسی)، مێژووی ئەردەڵان.</div>
+      <div class="poem">
+        <span class="poem-title">لە غەزەلەکانی مەستوورە:</span>
+        گرفتارم بە نازی چاوەکانی مەستی فەتتانت<br>
+        بریندارم بە تیری غەمزەکانی تیژ و بڕڕانت<br>
+        بە تیری غەمزە جەرگم پڕ لە خوێنە، ئەی شەهی خووبان<br>
+        تەماشای حاڵی زارم کە لە داخی دەردی هیجرانت
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p>چایخانەی شاعیران • دیزاین و ئامادەکردن بۆ خۆشەویستانی ئەدەب و شیعری کوردی</p>
+</footer>
+
+</body>
+</html>
